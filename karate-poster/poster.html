@@ -173,6 +173,23 @@
   .ct .t1 { font-family: "Oswald"; font-weight: 700; font-size: 34px; line-height: 1.05; letter-spacing: 1px; }
   .ct .t2 { font-weight: 600; font-size: 20px; color: #444; margin-top: 4px; }
   .phone { font-family: "Russo"; font-size: 46px; letter-spacing: 1px; }
+
+  /* ===== LIMITED SEATS BADGE ===== */
+  .seats {
+    position: absolute; right: 52px; top: 430px; z-index: 4;
+    width: 300px; padding: 12px 14px 12px; white-space: nowrap;
+    background: var(--gold); color: var(--ink);
+    border-radius: 18px; text-align: center;
+    transform: rotate(-3deg);
+    box-shadow: 0 0 0 4px var(--ink), 0 0 0 7px var(--gold), 0 18px 40px rgba(0,0,0,.55);
+  }
+  .seats .s1 {
+    display: inline-block; background: var(--red); color: #fff;
+    font-family: "Oswald"; font-weight: 700; font-size: 22px; letter-spacing: 3px;
+    padding: 3px 14px; border-radius: 8px;
+  }
+  .seats .s2 { font-family: "Oswald"; font-weight: 700; font-size: 40px; line-height: 1; margin-top: 6px; letter-spacing: 1px; text-transform: uppercase; }
+  .seats .s2 b { font-family: "Russo"; font-weight: 400; font-size: 54px; color: var(--red); vertical-align: -3px; margin: 0 4px; }
 </style>
 </head>
 <body>
@@ -192,6 +209,9 @@
     <img src="assets/qr.png" alt="QR-код">
     <div class="cap">СКАНИРУЙ QR-КОД<small>запись и подробности</small></div>
   </div>
+
+  <!-- LIMITED SEATS -->
+  <div class="seats"><span class="s1">МЕСТ МАЛО!</span><div class="s2">Всего <b>6</b> мест</div></div>
 
   <!-- BAND -->
   <div class="band">СИЛА <span class="dot"></span> ДИСЦИПЛИНА <span class="dot"></span> ХАРАКТЕР</div>
