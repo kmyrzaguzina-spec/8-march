@@ -10,7 +10,8 @@ from grade import grade
 U = '/root/.claude/uploads/5fd69116-c7b5-5348-b8b5-901fa53d91ab/'
 CLIP = {
     1: 'e7032f2d-______1.MOV', 2: 'eb63a4c0-_______2.MOV', 3: 'd63c1262-_______3.MOV',
-    4: '451138dd-_______4.MOV', 5: '9066a341-5.MOV', 9: 'd706b291-9.MOV',
+    4: '451138dd-_______4.MOV', 5: '9066a341-5.MOV', 6: 'e0ab67bf-_______6.MOV',
+    7: '22bdd81b-7.MOV', 8: '41e89180-8.MOV', 9: 'd706b291-9.MOV',
     10: '06ffb0a5-10.MOV', 11: '0f12286e-11.MOV', 12: '34c6add5-12.MOV', 13: '70fda86e-13.MOV',
 }
 W, H, FPS = 1080, 1920, 30
@@ -157,9 +158,9 @@ SEGS = [
     (5.43, 6.27, 1, 0.40, dict(z=(1.05, 1.12))),
     (6.27, 7.13, 10, 22.6, dict(z=(1.12, 1.04))),
     (7.13, 7.57, 12, 8.6, dict(z=(1.0, 1.06))),
-    (7.57, 8.01, 4, 4.2, dict(z=(1.04, 1.1), dip_out=True)),
+    (7.57, 8.01, 7, 3.3, dict(z=(1.04, 1.1), dip_out=True)),
     (8.01, 9.00, 3, 12.8, dict(z=(1.15, 1.06), dark=0.35, fade_in=True)),
-    (9.00, 9.71, 2, 0.6, dict(z=(1.0, 1.06), whip_out=1)),
+    (9.00, 9.71, 8, 0.6, dict(z=(1.0, 1.08), whip_out=1)),
     (9.71, 11.01, 11, 2.3, dict(z=(1.1, 1.0), whip_in=1)),
     (11.01, 12.31, 13, 9.6, dict(z=(1.0, 1.05), grid=(11.45, 11.89, 12.10))),
     (12.31, 13.50, 10, 4.2, dict(z=(1.0, 1.08), end=True)),
@@ -174,8 +175,8 @@ def finish(img, i):
 
 def intro_frames():
     n = fr(2.41)
-    A = read(5, 0.0, n)
-    B = read(9, 0.4, n)
+    A = read(7, 0.0, n)
+    B = read(6, 0.0, n)
     yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
     u = (xx * 1.0 + yy * 0.56) / (W + H * 0.56)  # diagonal coordinate 0..1
     for i in range(n):
