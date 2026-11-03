@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Мастер-класс по каратэ — София Берульцева (вариант 2)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #050b1c; }
+  body { display: flex; justify-content: center; }
+
+  .poster {
+    --navy: #07112b;
+    --red: #e8322f;
+    --blue: #2b7bff;
+    --bronze-1: #f4c38a;
+    --bronze-2: #cd7f32;
+    position: relative;
+    width: 794px;
+    height: 1123px;
+    overflow: hidden;
+    background: var(--navy);
+    font-family: 'Montserrat', sans-serif;
+    color: #fff;
+  }
+
+  /* ---------- top photo: victory ---------- */
+  .win {
+    position: absolute;
+    top: 88px; left: 0; right: 0;
+    height: 540px;
+    background: url('sofia-win.jpg') 50% 0 / cover no-repeat;
+  }
+  .win::after {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, var(--navy) 0%, rgba(7,17,43,0) 12%),
+      linear-gradient(0deg, var(--navy) 0%, rgba(7,17,43,.85) 18%, rgba(7,17,43,0) 50%),
+      linear-gradient(90deg, rgba(7,17,43,.5) 0%, rgba(7,17,43,0) 25%, rgba(7,17,43,0) 75%, rgba(7,17,43,.5) 100%);
+  }
+
+  /* ---------- header ---------- */
+  .header {
+    position: absolute;
+    top: 34px; left: 40px; right: 40px;
+    display: flex; justify-content: space-between; align-items: center;
+    z-index: 5;
+  }
+  .brand {
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 700; font-size: 15px; letter-spacing: .14em;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: var(--red);
+  }
+  .tag {
+    font-weight: 700; font-size: 13px; letter-spacing: .32em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.85);
+  }
+
+  /* ---------- left column over photo ---------- */
+  .intro {
+    position: absolute;
+    left: 40px; right: 40px; top: 680px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    z-index: 4;
+  }
+  .intro .kicker {
+    font-weight: 800; font-size: 13px; letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 14px;
+  }
+  .intro .name {
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 900;
+    font-size: 31px;
+    line-height: 1.05;
+    text-transform: uppercase;
+  }
+  .medal {
+    flex: none;
+    display: inline-flex; align-items: center; gap: 12px;
+    padding: 10px 16px 10px 10px;
+    border-radius: 999px;
+    background: rgba(7,17,43,.6);
+    border: 1px solid rgba(244,195,138,.55);
+  }
+  .medal .coin {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: radial-gradient(circle at 32% 28%, var(--bronze-1), var(--bronze-2) 50%, #7d4317);
+    box-shadow: inset 0 -3px 6px rgba(70,30,5,.6), inset 0 3px 5px rgba(255,235,200,.6);
+    display: grid; place-items: center;
+    font-family: 'Unbounded', sans-serif; font-weight: 900; font-size: 16px; color: #3a1a05;
+  }
+  .medal .txt {
+    font-weight: 700; font-size: 13px; line-height: 1.25;
+    color: var(--bronze-1);
+  }
+
+  /* ---------- big title ---------- */
+  .title {
+    position: absolute;
+    left: 40px; right: 40px;
+    top: 455px;
+    z-index: 4;
+  }
+  .title h1 {
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 900;
+    font-size: 86px;
+    line-height: .92;
+    letter-spacing: -.015em;
+    text-transform: uppercase;
+  }
+  .title h1 .line2 {
+    display: block;
+    color: var(--red);
+  }
+  .title .sub {
+    display: inline-flex; align-items: center; gap: 14px;
+    margin-top: 12px;
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 700; font-size: 30px;
+    text-transform: uppercase;
+  }
+  .title .sub i {
+    display: inline-block; width: 46px; height: 6px;
+    background: linear-gradient(90deg, var(--red) 50%, var(--blue) 50%);
+  }
+
+  /* ---------- fight photo band ---------- */
+  .fight {
+    position: absolute;
+    left: 0; right: 0;
+    top: 764px;
+    height: 250px;
+    clip-path: polygon(0 13%, 100% 0, 100% 87%, 0 100%);
+    background: url('sofia-fight.jpg') 50% 20% / 100% auto no-repeat;
+    z-index: 2;
+  }
+  .fight::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(7,17,43,.55) 0%, rgba(7,17,43,0) 40%);
+  }
+  .stripe {
+    position: absolute; left: 0; right: 0;
+    height: 8px;
+    z-index: 3;
+  }
+  .stripe.red  { background: var(--red); transform: skewY(-2.05deg); transform-origin: left; top: 792px; }
+  .stripe.blue { background: var(--blue); transform: skewY(-2.05deg); transform-origin: left; top: 1009px; }
+
+  /* ---------- venue ---------- */
+  .venue {
+    position: absolute;
+    left: 40px; right: 40px; bottom: 36px;
+    display: flex; align-items: center; justify-content: space-between;
+    z-index: 4;
+  }
+  .venue .label {
+    font-weight: 700; font-size: 12px; letter-spacing: .26em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.6);
+  }
+  .venue .value {
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 700; font-size: 30px; letter-spacing: .03em;
+    margin-top: 4px;
+  }
+  .venue .pin {
+    width: 58px; height: 58px; border-radius: 50%;
+    background: var(--red);
+    display: grid; place-items: center;
+  }
+  .venue .pin svg { width: 28px; height: 28px; }
+</style>
+</head>
+<body>
+  <div class="poster">
+    <div class="win"></div>
+
+    <div class="header">
+      <div class="brand">NEOTECH SCHOOL</div>
+      <div class="tag">Каратэ · Kumite</div>
+    </div>
+
+    <div class="intro">
+      <div class="name">София Берульцева</div>
+      <div class="medal">
+        <div class="coin">3</div>
+        <div class="txt">Бронзовый призёр<br>Олимпийских игр</div>
+      </div>
+    </div>
+
+    <div class="title">
+      <h1>Мастер-<span class="line2">класс</span></h1>
+      <div class="sub"><i></i>по каратэ</div>
+    </div>
+
+    <div class="fight"></div>
+    <div class="stripe red"></div>
+    <div class="stripe blue"></div>
+
+    <div class="venue">
+      <div>
+        <div class="label">Место проведения</div>
+        <div class="value">NEOTECH SCHOOL</div>
+      </div>
+      <div class="pin">
+        <svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
