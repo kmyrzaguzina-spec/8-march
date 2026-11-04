@@ -5,7 +5,7 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-from grade import grade
+from grade import grade_bright as grade
 
 U = '/root/.claude/uploads/5fd69116-c7b5-5348-b8b5-901fa53d91ab/'
 CLIP = {
@@ -153,43 +153,40 @@ def title_alpha(i, a, b, fade_in=8, fade_out=6):
 # ---------------------------------------------------------------- segments
 # (start_s, end_s, clip, src_start, options)
 SEGS = [
-    (2.41, 4.13, 5, 1.55, dict(z=(1.0, 1.10), whip_out=-1)),
-    (4.13, 5.43, 9, 1.90, dict(z=(1.08, 1.0), whip_in=-1)),
+    (2.41, 4.13, 5, 1.55, dict(z=(1.0, 1.10))),
+    (4.13, 5.43, 9, 1.90, dict(z=(1.08, 1.0))),
     (5.43, 6.27, 1, 0.40, dict(z=(1.05, 1.12))),
     (6.27, 7.13, 10, 22.6, dict(z=(1.12, 1.04))),
     (7.13, 7.57, 12, 8.6, dict(z=(1.0, 1.06))),
-    (7.57, 8.01, 7, 3.3, dict(z=(1.04, 1.1), dip_out=True)),
-    (8.01, 9.00, 3, 12.8, dict(z=(1.15, 1.06), dark=0.35, fade_in=True)),
-    (9.00, 9.71, 8, 0.6, dict(z=(1.0, 1.08), whip_out=1)),
-    (9.71, 11.01, 11, 2.3, dict(z=(1.1, 1.0), whip_in=1)),
-    (11.01, 12.31, 13, 9.6, dict(z=(1.0, 1.05), grid=(11.45, 11.89, 12.10))),
+    (7.57, 8.01, 7, 3.3, dict(z=(1.04, 1.1))),
+    (8.01, 9.00, 3, 12.8, dict(z=(1.15, 1.06))),
+    (9.00, 9.71, 8, 0.6, dict(z=(1.0, 1.08))),
+    (9.71, 11.01, 11, 2.3, dict(z=(1.1, 1.0))),
+    (11.01, 12.31, 13, 9.6, dict(z=(1.0, 1.05))),
     (12.31, 13.50, 10, 4.2, dict(z=(1.0, 1.08), end=True)),
 ]
 TOTAL = fr(13.50)
 
 rng = np.random.default_rng(7)
 def finish(img, i):
+    return img
     noise = rng.normal(0, 3.2, (H // 2, W // 2, 1)).astype(np.float32)
     noise = cv2.resize(noise, (W, H), interpolation=cv2.INTER_LINEAR)[..., None]
     return np.clip(img.astype(np.float32) + noise, 0, 255).astype(np.uint8)
 
 def intro_frames():
     n = fr(2.41)
-    A = read(7, 0.0, n)
-    B = read(6, 0.0, n)
-    yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
-    u = (xx * 1.0 + yy * 0.56) / (W + H * 0.56)  # diagonal coordinate 0..1
+    cut = fr(1.53)
+    A = read(7, 0.0, cut)
+    B = read(6, 0.0, n - cut)
     for i in range(n):
-        t = i / FPS
-        a_edge = 0.02 + 0.50 * ease(t / 0.65)
-        b_edge = 1.02 - 0.47 * ease((t - 0.70) / 0.65) if t >= 0.70 else 1.05
-        ga = grade(zoom(A[i], 1.12 - 0.05 * t / 2.41, 0.35, 0.4), dark=0.05)
-        gb = grade(zoom(B[i], 1.05 + 0.04 * t / 2.41, 0.6, 0.6), dark=0.05)
-        ma = (u < a_edge)[..., None]
-        mb = (u > b_edge)[..., None]
-        f = np.where(ma, ga, np.where(mb, gb, 0)).astype(np.uint8)
+        if i < cut:
+            f = grade(zoom(A[i], 1.0 + 0.08 * i / cut, 0.6, 0.4))
+        else:
+            k = i - cut
+            f = grade(zoom(B[k], 1.08 - 0.06 * k / (n - cut)))
         al, dy = title_alpha(i, fr(0.25), n, 9, 1)
-        f = shade(f, 680, 1100, 0.5 * al)
+        f = shade(f, 680, 1100, 0.45 * al)
         f = overlay(f, T_INTRO, al, dy)
         f = overlay(f, R_INTRO, al)
         yield f
@@ -228,7 +225,7 @@ def seg_frames(start, end, clip, src, o):
             img = overlay(img, R_NAME, al)
         if o.get('end'):
             al, dy = title_alpha(k, 3, n + 99, 9, 1)
-            img = (img * (1 - 0.45 * al)).astype(np.uint8)
+            img = (img * (1 - 0.35 * al)).astype(np.uint8)
             img = overlay(img, T_END, al, dy)
             img = overlay(img, R_END, al)
             if k >= n - 8:

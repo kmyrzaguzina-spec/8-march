@@ -32,3 +32,23 @@ def grade(rgb, look='teal', dark=0.0):
     f = f * (1 - dark)
     f = f * vignette(*f.shape[:2])
     return (np.clip(f, 0, 1) * 255 + 0.5).astype(np.uint8)
+
+
+def grade_bright(rgb, **_):
+    """Bright, natural look: neutral whites, lively but clean colours, gentle contrast."""
+    f = rgb.astype(np.float32) / 255
+    lum = (f @ np.array([0.299, 0.587, 0.114], np.float32))[..., None]
+    # neutralise the pink cast in bright areas (white gi, ceiling)
+    hi = np.clip((lum - 0.38) / 0.42, 0, 1) ** 1.2
+    cast = f - lum
+    f = f - hi * np.clip(cast, 0, None) * np.array([0.85, 0.0, 0.7], np.float32)
+    # exposure lift + gentle S-curve
+    f = np.clip(f * 1.07 + 0.015, 0, 1)
+    f = f - 0.055 * np.sin(2 * np.pi * f)
+    # vibrance: boost low-saturation colours more than already-saturated (pink mats)
+    lum = (f @ np.array([0.299, 0.587, 0.114], np.float32))[..., None]
+    sat = (f.max(-1, keepdims=True) - f.min(-1, keepdims=True))
+    f = lum + (f - lum) * (1.0 + 0.30 * (1 - np.clip(sat * 1.8, 0, 1)))
+    # pull magenta mats slightly towards red so they read as red, not purple-pink
+    f[..., 2] -= 0.06 * np.clip(f[..., 0] - f[..., 1], 0, 1)
+    return (np.clip(f, 0, 1) * 255 + 0.5).astype(np.uint8)
