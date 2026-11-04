@@ -132,6 +132,7 @@ R_INTRO = rect_layer([((W / 2 - 60, 1010, W / 2, 1020), RED), ((W / 2, 1010, W /
 T_NAME = text_layer([
     ('СОФЬЯ БЕРУЛЬЦЕВА', font('Unbounded-Black', 62), WHITE, 1270, 0, 'left', 72),
     ('Бронзовый призёр Олимпийских игр', font('Montserrat-Bold', 40), SOFT, 1360, 0, 'left', 72),
+    ('Двукратная чемпионка Азиатских игр', font('Montserrat-Bold', 40), SOFT, 1414, 0, 'left', 72),
 ])
 R_NAME = rect_layer([((72, 1240, 152, 1250), RED)])
 T_END = text_layer([
@@ -220,7 +221,7 @@ def seg_frames(start, end, clip, src, o):
             img = (img * (1 - (k - (n - 5) + 1) / 5)).astype(np.uint8)
         if clip == 5 and start == 2.41:
             al, dy = title_alpha(k, 6, n - 2, 8, 5)
-            img = shade(img, 1150, 1500, 0.5 * al)
+            img = shade(img, 1150, 1560, 0.5 * al)
             img = overlay(img, T_NAME, al, dy)
             img = overlay(img, R_NAME, al)
         if o.get('end'):
