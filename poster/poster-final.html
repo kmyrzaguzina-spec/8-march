@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Финал — Женщины −55 кг — Ценгель Николь</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #070d22; }
+  body { display: flex; justify-content: center; }
+
+  .poster {
+    --navy: #0a1230;
+    --red: #e8322f;
+    --gold-1: #ffe29a;
+    --gold-2: #d9a531;
+    position: relative;
+    width: 794px;
+    height: 1123px;
+    overflow: hidden;
+    background: radial-gradient(90% 60% at 50% 30%, #18234d 0%, var(--navy) 60%, #060b1f 100%);
+    font-family: 'Montserrat', sans-serif;
+    color: #fff;
+  }
+
+  /* photo + cut-out share one box so they line up exactly */
+  .shot {
+    position: absolute;
+    left: -10px; top: 168px;
+    width: 820px; height: 953px;
+  }
+  .shot img { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .bg { z-index: 1; filter: saturate(.85) brightness(.72); }
+  .bg-fade {
+    position: absolute; left: 0; right: 0; top: 140px; height: 360px;
+    background: linear-gradient(180deg, var(--navy) 0%, rgba(10,18,48,.7) 35%, rgba(10,18,48,0) 100%);
+    z-index: 2;
+  }
+  .side-fade {
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(6,11,31,.85) 0%, rgba(6,11,31,0) 30%, rgba(6,11,31,0) 75%, rgba(6,11,31,.7) 100%);
+    z-index: 2;
+  }
+  .cut { z-index: 4; filter: drop-shadow(0 12px 30px rgba(0,0,0,.35)); }
+
+  /* ---------- top ---------- */
+  .top {
+    position: absolute; left: 40px; right: 40px; top: 38px;
+    display: flex; justify-content: space-between; align-items: center;
+    z-index: 5;
+    font-weight: 800; font-size: 13px; letter-spacing: .32em; text-transform: uppercase;
+    color: rgba(255,255,255,.75);
+  }
+  .top .dot { color: var(--red); }
+
+  .final {
+    position: absolute;
+    left: 0; right: 0; top: 92px;
+    text-align: center;
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 900;
+    font-size: 136px;
+    line-height: 1;
+    letter-spacing: -.02em;
+    z-index: 3;
+    background: linear-gradient(180deg, #ffffff 0%, #ffffff 55%, #ffd7d6 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    text-shadow: none;
+  }
+  .final-glow {
+    position: absolute; left: 0; right: 0; top: 92px;
+    text-align: center;
+    font-family: 'Unbounded', sans-serif; font-weight: 900; font-size: 136px; line-height: 1; letter-spacing: -.02em;
+    color: var(--red);
+    filter: blur(40px);
+    opacity: .28;
+    z-index: 2;
+  }
+
+  /* ---------- bottom ---------- */
+  .bottom-fade {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 420px;
+    background: linear-gradient(0deg, #060b1f 0%, rgba(6,11,31,.92) 38%, rgba(6,11,31,0) 100%);
+    z-index: 5;
+  }
+  .info {
+    position: absolute; left: 44px; right: 44px; bottom: 50px;
+    z-index: 6;
+  }
+  .cat {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 10px 18px 10px 14px;
+    background: var(--red);
+    border-radius: 6px;
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 700; font-size: 22px; letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+  .cat .w { font-weight: 900; font-size: 26px; letter-spacing: 0; }
+  .cat .sep { width: 2px; height: 26px; background: rgba(255,255,255,.55); }
+  .name {
+    margin-top: 20px;
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 900;
+    font-size: 70px;
+    line-height: .98;
+    text-transform: uppercase;
+  }
+  .name span { display: block; }
+  .name .first { color: var(--red); }
+  .meta {
+    margin-top: 22px;
+    display: flex; align-items: center; gap: 14px;
+    font-weight: 800; font-size: 14px; letter-spacing: .3em; text-transform: uppercase;
+    color: rgba(255,255,255,.7);
+  }
+  .meta i { display: inline-block; width: 46px; height: 4px; background: var(--red); }
+</style>
+</head>
+<body>
+  <div class="poster">
+    <div class="top">
+      <span>Karate <span class="dot">·</span> Kumite</span>
+      <span>WKF</span>
+    </div>
+
+    <div class="final-glow">ФИНАЛ</div>
+    <div class="final">ФИНАЛ</div>
+
+    <div class="shot">
+      <img class="bg" src="nicole-bg.jpg" alt="">
+      <div class="side-fade"></div>
+      <img class="cut" src="nicole-cut.png" alt="Ценгель Николь">
+    </div>
+    <div class="bg-fade"></div>
+
+    <div class="bottom-fade"></div>
+    <div class="info">
+      <div class="cat">Женщины <span class="sep"></span> <span class="w">−55 кг</span></div>
+      <div class="name"><span>Ценгель</span><span class="first">Николь</span></div>
+      <div class="meta"><i></i>Финал · Кумите</div>
+    </div>
+  </div>
+</body>
+</html>
