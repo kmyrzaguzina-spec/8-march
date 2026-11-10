@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Burabay Open — пресс-волл</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:ital,wght@0,400;0,600;0,800;1,800;1,900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #9f2733;
+    --bg-dark: #86202b;
+    --bg-light: #b33642;
+    --white: #ffffff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: #111; }
+  body { display: grid; place-items: center; overflow: hidden; }
+
+  /* Холст 4000×1000 (пропорция 4:1), масштабируется под окно */
+  .wall {
+    width: 4000px; height: 1000px; position: relative; overflow: hidden; flex: none;
+    background: var(--bg); color: var(--white);
+    font-family: "Fira Sans Condensed", sans-serif;
+  }
+  .bg { position: absolute; inset: 0; }
+
+  .panel { position: absolute; top: 0; bottom: 0; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .side { width: 860px; justify-content: center; padding-bottom: 20px; }
+  .side.left  { left: 0; }
+  .side.right { right: 0; }
+  .center { left: 860px; right: 860px; padding: 46px 60px; justify-content: center; }
+
+  .divider { position: absolute; top: 0; bottom: 0; width: 3px; background: rgba(255,255,255,.18); }
+
+  /* Белая плашка с логотипами организаторов */
+  .org-plate {
+    display: flex; align-items: center; justify-content: center; gap: 38px;
+    background: #fff; border-radius: 14px; padding: 18px 40px; height: 150px; min-width: 330px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.18);
+  }
+  .org-plate .logo { width: 112px; height: 112px; }
+
+  .subtitle { font-weight: 800; font-size: 46px; line-height: 1.12; letter-spacing: .3px; }
+  .side .subtitle { margin-top: 48px; }
+
+  .name {
+    font-weight: 900; font-style: italic; text-transform: uppercase; line-height: .9;
+    letter-spacing: 1px; text-shadow: 0 6px 18px rgba(0,0,0,.18);
+  }
+  .side .name { font-size: 156px; margin-top: 30px; }
+  .center .name { font-size: 124px; }
+
+  .date { font-weight: 400; font-size: 54px; margin-top: 10px; opacity: .95; }
+  .center .date { font-size: 44px; margin-top: 4px; }
+  .center .subtitle { font-size: 38px; margin-top: 8px; }
+
+  /* Сетка логотипов партнёров */
+  .grid {
+    display: grid; gap: 22px 24px; grid-auto-flow: dense;
+    grid-template-columns: repeat(12, 158px); grid-auto-rows: 90px;
+  }
+  .heading {
+    grid-column: 4 / span 6; grid-row: 1 / span 3;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+  }
+  .tile {
+    background: #fff; border-radius: 6px; display: grid; place-items: center;
+    padding: 8px 14px; box-shadow: 0 4px 10px rgba(0,0,0,.15);
+  }
+  .tile img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .tile .ph { font-weight: 800; font-size: 22px; letter-spacing: 3px; color: #c8c8c8; text-transform: uppercase; }
+</style>
+</head>
+<body>
+<div class="wall" id="wall">
+
+  <!-- Фон: ромбы и полосы -->
+  <svg class="bg" viewBox="0 0 4000 1000" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <pattern id="diamonds" width="540" height="540" patternUnits="userSpaceOnUse" x="-50" y="-40">
+        <polygon points="270,0 540,270 270,540 0,270" fill="#a92e3a"/>
+        <polygon points="270,90 450,270 270,450 90,270" fill="#9a2531"/>
+        <polygon points="270,170 370,270 270,370 170,270" fill="#a52b37"/>
+      </pattern>
+      <linearGradient id="shade" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#000" stop-opacity="0"/>
+        <stop offset="1" stop-color="#000" stop-opacity=".18"/>
+      </linearGradient>
+    </defs>
+    <rect width="4000" height="1000" fill="url(#diamonds)"/>
+    <!-- горизонтальная полоса, как в референсе -->
+    <rect y="455" width="4000" height="240" fill="#000" opacity=".07"/>
+    <!-- силуэт гор Бурабая по нижнему краю -->
+    <path fill="#000" opacity=".1" d="M0 1000 L0 900 L120 860 L210 885 L300 820 L360 760 L392 700 L420 690 L446 740 L480 820
+      L560 850 L660 830 L760 870 L860 850 L960 880 L1080 860 L1200 885 L1320 870 L1440 890 L1560 868 L1680 886 L1800 872
+      L1920 892 L2040 870 L2160 888 L2280 870 L2400 890 L2520 866 L2640 884 L2760 870 L2880 888 L3000 860 L3140 850
+      L3240 870 L3340 830 L3440 850 L3520 820 L3554 740 L3580 690 L3608 700 L3640 760 L3700 820 L3790 885 L3880 860
+      L4000 900 L4000 1000 Z"/>
+    <rect width="4000" height="1000" fill="url(#shade)"/>
+  </svg>
+
+  <div class="divider" style="left:860px"></div>
+  <div class="divider" style="right:860px"></div>
+
+  <section class="panel side left" data-side></section>
+  <section class="panel center">
+    <div class="grid" id="grid">
+      <div class="heading">
+        <div class="name" data-f="name"></div>
+        <div class="date" data-f="date"></div>
+        <div class="subtitle" data-f="subtitle"></div>
+      </div>
+    </div>
+  </section>
+  <section class="panel side right" data-side></section>
+</div>
+
+<script>
+/* ===== НАСТРОЙКИ — меняйте тексты и логотипы здесь ===== */
+const CONFIG = {
+  name: "Burabay Open",
+  date: "2026",                                   // например: "6–8 қараша 2026"
+  subtitle: "Каратэ WKF бойынша<br>халықаралық ашық турнир",
+  // Логотипы организаторов на белой плашке (слева и справа). Пути к файлам, напр. "logos/wkf.png"
+  orgLogos: ["", ""],
+  // Логотипы партнёров для сетки в центре. Повторяются по кругу.
+  sponsorLogos: [],
+  rows: 8,
+};
+/* ======================================================== */
+
+function logoEl(src, cls) {
+  if (src) { const i = new Image(); i.src = src; i.alt = ""; if (cls) i.className = cls; return i; }
+  const svgNS = "http://www.w3.org/2000/svg";
+  const s = document.createElementNS(svgNS, "svg");
+  s.setAttribute("viewBox", "0 0 100 100"); if (cls) s.setAttribute("class", cls);
+  s.innerHTML = '<circle cx="50" cy="50" r="46" fill="none" stroke="#d6d6d6" stroke-width="4" stroke-dasharray="8 6"/>' +
+                '<text x="50" y="57" text-anchor="middle" font-family="Fira Sans Condensed" font-weight="800" font-size="20" fill="#c4c4c4">LOGO</text>';
+  return s;
+}
+
+document.querySelectorAll("[data-f]").forEach(el => el.innerHTML = CONFIG[el.dataset.f]);
+
+document.querySelectorAll("[data-side]").forEach(side => {
+  const plate = document.createElement("div"); plate.className = "org-plate";
+  CONFIG.orgLogos.forEach(src => plate.appendChild(logoEl(src, "logo")));
+  side.innerHTML = '<div class="subtitle"></div><div class="name"></div><div class="date"></div>';
+  side.prepend(plate);
+  side.querySelector(".subtitle").innerHTML = CONFIG.subtitle;
+  side.querySelector(".name").innerHTML = CONFIG.name;
+  side.querySelector(".date").innerHTML = CONFIG.date;
+});
+
+const grid = document.getElementById("grid");
+const cols = 12, n = CONFIG.sponsorLogos.length;
+const cells = cols * CONFIG.rows - 6 * 3;   // минус «окно» под заголовок
+for (let k = 0; k < cells; k++) {
+  { const r = Math.floor(k / cols), c = k % cols;
+    const t = document.createElement("div"); t.className = "tile";
+    if (n) t.appendChild(logoEl(CONFIG.sponsorLogos[(c + r * 2) % n]));
+    else t.innerHTML = '<span class="ph">Logo</span>';
+    grid.appendChild(t);
+  }
+}
+
+function fit() {
+  const s = Math.min(innerWidth / 4000, innerHeight / 1000);
+  document.getElementById("wall").style.transform = "scale(" + s + ")";
+}
+addEventListener("resize", fit); fit();
+</script>
+</body>
+</html>
