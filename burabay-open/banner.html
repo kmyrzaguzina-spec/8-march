@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Burabay Open — баннер</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Inter:wght@400;600;800&family=Noto+Serif+JP:wght@900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #07122a;
+    --navy-2: #0e2350;
+    --aka: #e0242f;      /* WKF красный (АКА) */
+    --ao: #1e5bd8;       /* WKF синий (АО) */
+    --gold: #f2b33d;
+    --ink: #f5f3ee;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #000; height: 100%; }
+  body { display: grid; place-items: center; overflow: hidden; }
+
+  /* Холст 1920×1080, масштабируется под окно */
+  .stage {
+    width: 1920px; height: 1080px; position: relative; overflow: hidden;
+    background: radial-gradient(1200px 800px at 75% 35%, #1b3a7a 0%, var(--navy-2) 40%, var(--navy) 100%);
+    font-family: Inter, sans-serif; color: var(--ink);
+    transform-origin: center;
+  }
+  .scene { position: absolute; inset: 0; }
+
+  .kanji {
+    position: absolute; left: 60px; top: 70px;
+    writing-mode: vertical-rl; font-family: "Noto Serif JP", serif; font-weight: 900;
+    font-size: 120px; line-height: 1; letter-spacing: 10px;
+    color: transparent; -webkit-text-stroke: 2px rgba(255,255,255,.14);
+  }
+
+  .content { position: absolute; left: 230px; top: 100px; width: 900px; }
+
+  .badge {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 12px 22px 12px 14px; border: 2px solid rgba(255,255,255,.25); border-radius: 999px;
+    font-family: Oswald, sans-serif; font-weight: 500; font-size: 26px; letter-spacing: 4px; text-transform: uppercase;
+  }
+  .badge .dot { display: flex; gap: 6px; }
+  .badge .dot i { width: 18px; height: 18px; border-radius: 50%; display: block; }
+  .badge .dot i:first-child { background: var(--aka); }
+  .badge .dot i:last-child  { background: var(--ao); }
+
+  .subtitle {
+    margin-top: 44px; font-family: Oswald, sans-serif; font-weight: 500; font-size: 38px;
+    letter-spacing: 6px; text-transform: uppercase; color: var(--gold);
+  }
+
+  .title {
+    font-family: Oswald, sans-serif; font-weight: 700; text-transform: uppercase;
+    line-height: .86; margin-top: 18px;
+  }
+  .title .l1 { display: block; font-size: 206px; letter-spacing: 4px; text-shadow: 0 12px 40px rgba(0,0,0,.45); }
+  .title .l2 { display: flex; align-items: center; gap: 28px; font-size: 206px; letter-spacing: 6px; }
+  .title .l2 .open { color: transparent; -webkit-text-stroke: 5px var(--ink); }
+  .title .l2 .year {
+    font-size: 64px; letter-spacing: 2px; line-height: 1; padding: 14px 18px 10px;
+    background: var(--aka); color: #fff; transform: translateY(-18px);
+  }
+
+  .disciplines { margin-top: 40px; display: flex; gap: 18px; }
+  .disciplines span {
+    font-family: Oswald, sans-serif; font-weight: 700; font-size: 40px; letter-spacing: 5px; text-transform: uppercase;
+    padding: 12px 30px; border-radius: 6px;
+  }
+  .disciplines .kumite { background: var(--aka); }
+  .disciplines .kata   { background: var(--ao); }
+
+  .meta { margin-top: 26px; font-size: 30px; font-weight: 600; letter-spacing: 1px; color: rgba(245,243,238,.86); }
+  .meta b { color: #fff; font-weight: 800; }
+
+  .footer {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 92px;
+    display: flex; align-items: center; justify-content: space-between; padding: 0 80px 0 230px;
+    background: rgba(4,10,24,.82); border-top: 1px solid rgba(255,255,255,.08);
+    font-family: Oswald, sans-serif; font-size: 30px; letter-spacing: 5px; text-transform: uppercase;
+  }
+  .footer .place { display: flex; align-items: center; gap: 16px; }
+  .footer .place svg { width: 26px; height: 26px; }
+  .footer .rules { color: rgba(245,243,238,.7); }
+  .stripe { position: absolute; left: 0; right: 0; bottom: 92px; height: 10px; display: flex; }
+  .stripe i { flex: 1; }
+  .stripe i:nth-child(1) { background: var(--aka); }
+  .stripe i:nth-child(2) { background: #fff; flex: .12; }
+  .stripe i:nth-child(3) { background: var(--ao); }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+
+  <!-- Пейзаж Бурабая: солнце, скалы, сосны, озеро, каратист -->
+  <svg class="scene" viewBox="0 0 1920 1080" aria-hidden="true">
+    <defs>
+      <radialGradient id="sun" cx="50%" cy="45%" r="55%">
+        <stop offset="0" stop-color="#ff5a3c"/>
+        <stop offset=".65" stop-color="#e0242f"/>
+        <stop offset="1" stop-color="#a5121c"/>
+      </radialGradient>
+      <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+        <stop offset="0" stop-color="#ff4b3a" stop-opacity=".45"/>
+        <stop offset="1" stop-color="#ff4b3a" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="lake" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#132c5e"/>
+        <stop offset="1" stop-color="#060f22"/>
+      </linearGradient>
+      <linearGradient id="far" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#1d3a74"/>
+        <stop offset="1" stop-color="#11265a"/>
+      </linearGradient>
+      <clipPath id="sunclip"><circle cx="1440" cy="460" r="330"/></clipPath>
+      <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
+        <circle cx="2" cy="2" r="1.6" fill="#fff" opacity=".07"/>
+      </pattern>
+    </defs>
+
+    <rect width="1920" height="1080" fill="url(#dots)"/>
+
+    <g transform="translate(70,0)">
+    <!-- Солнце -->
+    <circle cx="1440" cy="460" r="520" fill="url(#glow)"/>
+    <circle cx="1440" cy="460" r="330" fill="url(#sun)"/>
+    <!-- Горизонтальные полосы на солнце -->
+    <g clip-path="url(#sunclip)" fill="#07122a" opacity=".22">
+      <rect x="1100" y="640" width="700" height="10"/>
+      <rect x="1100" y="672" width="700" height="14"/>
+      <rect x="1100" y="708" width="700" height="18"/>
+      <rect x="1100" y="748" width="700" height="24"/>
+    </g>
+
+    <!-- Дальние горы -->
+    <path fill="url(#far)" d="M760 760 L900 690 L980 715 L1060 640 L1130 680 L1210 610 L1290 660 L1350 630
+      L1440 680 L1530 600 L1600 650 L1680 590 L1760 640 L1840 610 L1920 650 L1990 640 L1990 800 L760 800 Z"/>
+
+    <!-- Каратист (ёко-гери), пиктограмма -->
+    <g stroke="#07122a" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <!-- опорная нога -->
+      <path d="M1338 548 L1322 640 L1336 736" stroke-width="44"/>
+      <!-- корпус -->
+      <path d="M1338 548 L1262 452" stroke-width="58"/>
+      <!-- бьющая нога -->
+      <path d="M1338 548 L1460 524 L1592 494" stroke-width="44"/>
+      <!-- рука в защите -->
+      <path d="M1262 452 L1312 446 L1300 398" stroke-width="30"/>
+      <!-- рука у пояса -->
+      <path d="M1262 452 L1222 512 L1268 548" stroke-width="30"/>
+    </g>
+    <circle cx="1232" cy="402" r="38" fill="#07122a"/>
+    <!-- стопа опорной ноги -->
+    <path d="M1310 744 L1376 744" stroke="#07122a" stroke-width="26" stroke-linecap="round"/>
+    <!-- пояс -->
+    <path d="M1312 530 L1360 566" stroke="#f2b33d" stroke-width="10" stroke-linecap="round"/>
+    <path d="M1338 548 L1318 590 M1338 548 L1302 582" stroke="#f2b33d" stroke-width="7" stroke-linecap="round"/>
+
+    <!-- Скалы Бурабая (Окжетпес) и сосновый лес -->
+    <path fill="#0a1a3d" d="M760 830 L800 790 L840 772 L840 772 L930 730 L1000 744 L1060 700 L1095 560 L1120 545 L1140 520
+      L1160 540 L1172 600 L1200 690 L1260 720 L1330 760 L1420 742 L1500 770 L1590 735 L1680 760 L1760 720
+      L1840 748 L1920 730 L1990 740 L1990 860 L760 860 Z"/>
+    <g fill="#061230">
+      <path d="M700 860 L726 790 L752 860 Z M740 860 L770 770 L800 860 Z M790 860 L812 806 L834 860 Z
+               M860 860 L892 760 L924 860 Z M920 860 L944 800 L968 860 Z M1180 860 L1206 784 L1232 860 Z
+               M1230 860 L1262 752 L1294 860 Z M1290 860 L1312 800 L1334 860 Z M1540 860 L1568 780 L1596 860 Z
+               M1600 860 L1634 756 L1668 860 Z M1660 860 L1684 798 L1708 860 Z M1740 860 L1770 770 L1800 860 Z
+               M1800 860 L1826 800 L1852 860 Z M1850 860 L1884 750 L1918 860 Z"/>
+      <rect x="600" y="852" width="1320" height="20"/>
+    </g>
+
+    </g>
+
+    <!-- Озеро с отражением солнца -->
+    <rect x="0" y="866" width="1920" height="214" fill="url(#lake)"/>
+    <g fill="#e0242f" transform="translate(70,0)">
+      <rect x="1250" y="884" width="380" height="6" rx="3" opacity=".75"/>
+      <rect x="1290" y="904" width="300" height="6" rx="3" opacity=".55"/>
+      <rect x="1330" y="924" width="220" height="5" rx="2.5" opacity=".4"/>
+      <rect x="1370" y="942" width="140" height="4" rx="2" opacity=".28"/>
+      <rect x="1405" y="958" width="70" height="4" rx="2" opacity=".2"/>
+    </g>
+    <!-- Скала Жумбактас в озере -->
+    <path fill="#061230" d="M1040 900 L1060 868 L1084 862 L1100 874 L1114 870 L1128 900 Z"/>
+    <path fill="#0d2048" opacity=".7" d="M1040 900 L1060 920 L1084 924 L1100 916 L1114 920 L1128 900 Z"/>
+  </svg>
+
+  <div class="kanji">空手道</div>
+
+  <div class="content">
+    <div class="badge"><span class="dot"><i></i><i></i></span>Karate · WKF Rules</div>
+    <div class="subtitle">Открытый турнир по каратэ</div>
+    <h1 class="title">
+      <span class="l1">Burabay</span>
+      <span class="l2"><span class="open">Open</span><span class="year">2026</span></span>
+    </h1>
+    <div class="disciplines"><span class="kumite">Кумите</span><span class="kata">Ката</span></div>
+    <div class="meta"><b>Дети · Кадеты · Юниоры · Взрослые</b></div>
+  </div>
+
+  <div class="stripe"><i></i><i></i><i></i></div>
+  <div class="footer">
+    <div class="place">
+      <svg viewBox="0 0 24 24" fill="#e0242f"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>
+      Бурабай · Казахстан
+    </div>
+    <div class="rules">По правилам World Karate Federation</div>
+  </div>
+</div>
+
+<script>
+  // Вписать холст 1920×1080 в окно браузера
+  function fit() {
+    const s = Math.min(innerWidth / 1920, innerHeight / 1080);
+    document.getElementById('stage').style.transform = 'scale(' + s + ')';
+  }
+  addEventListener('resize', fit); fit();
+</script>
+</body>
+</html>
