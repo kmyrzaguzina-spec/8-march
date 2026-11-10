@@ -6,163 +6,203 @@
 <title>Burabay Open — пресс-волл</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:ital,wght@0,400;0,600;0,800;1,800;1,900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Fira+Sans+Condensed:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #9f2733;
-    --bg-dark: #86202b;
-    --bg-light: #b33642;
-    --white: #ffffff;
+    --wine: #4a0b16;
+    --wine-2: #7a1222;
+    --aka: #e0242f;
+    --ao: #1e5bd8;
+    --gold: #f2b33d;
+    --ink: #fff8f0;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; background: #111; }
   body { display: grid; place-items: center; overflow: hidden; }
 
-  /* Холст 4000×1000 (пропорция 4:1), масштабируется под окно */
+  /* Холст 4000×1000 (4:1), масштабируется под окно */
   .wall {
     width: 4000px; height: 1000px; position: relative; overflow: hidden; flex: none;
-    background: var(--bg); color: var(--white);
-    font-family: "Fira Sans Condensed", sans-serif;
+    background: linear-gradient(100deg, var(--wine) 0%, var(--wine-2) 45%, #8f1626 70%, var(--wine) 100%);
+    color: var(--ink); font-family: "Fira Sans Condensed", sans-serif;
   }
-  .bg { position: absolute; inset: 0; }
+  .scene { position: absolute; inset: 0; }
 
-  .panel { position: absolute; top: 0; bottom: 0; display: flex; flex-direction: column; align-items: center; text-align: center; }
-  .side { width: 860px; justify-content: center; padding-bottom: 20px; }
-  .side.left  { left: 0; }
-  .side.right { right: 0; }
-  .center { left: 860px; right: 860px; padding: 46px 60px; justify-content: center; }
-
-  .divider { position: absolute; top: 0; bottom: 0; width: 3px; background: rgba(255,255,255,.18); }
-
-  /* Белая плашка с логотипами организаторов */
-  .org-plate {
-    display: flex; align-items: center; justify-content: center; gap: 38px;
-    background: #fff; border-radius: 14px; padding: 18px 40px; height: 150px; min-width: 330px;
-    box-shadow: 0 8px 24px rgba(0,0,0,.18);
+  /* Заголовок */
+  .title-block { position: absolute; left: 960px; top: 130px; width: 960px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 14px; padding: 10px 24px 10px 14px;
+    border: 2px solid rgba(255,255,255,.3); border-radius: 999px;
+    font-family: Oswald, sans-serif; font-weight: 500; font-size: 30px; letter-spacing: 5px; text-transform: uppercase;
   }
-  .org-plate .logo { width: 112px; height: 112px; }
+  .badge i { width: 20px; height: 20px; border-radius: 50%; display: block; }
+  .subtitle { margin-top: 30px; font-weight: 600; font-size: 44px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); }
+  .name { font-family: Oswald, sans-serif; font-weight: 700; text-transform: uppercase; line-height: .86; margin-top: 10px; }
+  .name .l1 { display: block; font-size: 214px; letter-spacing: 4px; text-shadow: 0 10px 40px rgba(0,0,0,.4); }
+  .name .l2 { display: flex; align-items: center; gap: 30px; font-size: 214px; letter-spacing: 6px; }
+  .name .open { color: transparent; -webkit-text-stroke: 5px var(--ink); }
+  .name .year { font-size: 70px; line-height: 1; padding: 14px 20px 10px; background: var(--aka); color: #fff; transform: translateY(-14px); }
+  .disc { margin-top: 34px; display: flex; gap: 18px; }
+  .disc span { font-family: Oswald, sans-serif; font-weight: 700; font-size: 42px; letter-spacing: 5px; text-transform: uppercase; padding: 8px 30px; border-radius: 6px; }
 
-  .subtitle { font-weight: 800; font-size: 46px; line-height: 1.12; letter-spacing: .3px; }
-  .side .subtitle { margin-top: 48px; }
+  /* Партнёры */
+  .partners {
+    position: absolute; left: 2080px; top: 140px; width: 1300px; height: 640px;
+    border-radius: 28px; padding: 40px 50px;
+    background: rgba(255,255,255,.07); border: 2px solid rgba(255,255,255,.14);
+    backdrop-filter: blur(4px);
+  }
+  .partners h2 {
+    display: flex; align-items: center; gap: 22px; font-weight: 600; font-size: 34px; letter-spacing: 6px;
+    text-transform: uppercase; color: rgba(255,248,240,.85);
+  }
+  .partners h2::after { content: ""; flex: 1; height: 2px; background: linear-gradient(90deg, var(--gold), transparent); }
+  .logos { margin-top: 34px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 26px; }
+  .logo {
+    height: 138px; background: #fff; border-radius: 16px; display: grid; place-items: center; padding: 14px 20px;
+    box-shadow: 0 10px 24px rgba(0,0,0,.25);
+  }
+  .logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .logo .ph { font-family: Oswald, sans-serif; font-size: 26px; letter-spacing: 4px; color: #cfc6c6; }
 
-  .name {
-    font-weight: 900; font-style: italic; text-transform: uppercase; line-height: .9;
-    letter-spacing: 1px; text-shadow: 0 6px 18px rgba(0,0,0,.18);
-  }
-  .side .name { font-size: 156px; margin-top: 30px; }
-  .center .name { font-size: 124px; }
+  /* Организаторы, место, дата */
+  .info { position: absolute; right: 90px; top: 150px; width: 470px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .org { display: flex; gap: 30px; background: #fff; border-radius: 22px; padding: 26px 36px; box-shadow: 0 12px 30px rgba(0,0,0,.3); }
+  .org .slot { width: 150px; height: 150px; display: grid; place-items: center; }
+  .org .slot img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .info .date { margin-top: 44px; font-family: Oswald, sans-serif; font-weight: 700; font-size: 76px; line-height: 1; }
+  .info .place { margin-top: 18px; display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: 40px; letter-spacing: 3px; text-transform: uppercase; }
+  .info .rules { margin-top: 24px; font-size: 30px; letter-spacing: 2px; color: rgba(255,248,240,.7); }
 
-  .date { font-weight: 400; font-size: 54px; margin-top: 10px; opacity: .95; }
-  .center .date { font-size: 44px; margin-top: 4px; }
-  .center .subtitle { font-size: 38px; margin-top: 8px; }
-
-  /* Сетка логотипов партнёров */
-  .grid {
-    display: grid; gap: 22px 24px; grid-auto-flow: dense;
-    grid-template-columns: repeat(12, 158px); grid-auto-rows: 90px;
-  }
-  .heading {
-    grid-column: 4 / span 6; grid-row: 1 / span 3;
-    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
-  }
-  .tile {
-    background: #fff; border-radius: 6px; display: grid; place-items: center;
-    padding: 8px 14px; box-shadow: 0 4px 10px rgba(0,0,0,.15);
-  }
-  .tile img { max-width: 100%; max-height: 100%; object-fit: contain; }
-  .tile .ph { font-weight: 800; font-size: 22px; letter-spacing: 3px; color: #c8c8c8; text-transform: uppercase; }
+  .stripe { position: absolute; left: 0; right: 0; bottom: 0; height: 16px; display: flex; }
+  .stripe i:nth-child(1) { flex: 1; background: var(--aka); }
+  .stripe i:nth-child(2) { flex: .06; background: #fff; }
+  .stripe i:nth-child(3) { flex: 1; background: var(--ao); }
 </style>
 </head>
 <body>
 <div class="wall" id="wall">
-
-  <!-- Фон: ромбы и полосы -->
-  <svg class="bg" viewBox="0 0 4000 1000" preserveAspectRatio="none" aria-hidden="true">
+  <svg class="scene" viewBox="0 0 4000 1000" aria-hidden="true">
     <defs>
-      <pattern id="diamonds" width="540" height="540" patternUnits="userSpaceOnUse" x="-50" y="-40">
-        <polygon points="270,0 540,270 270,540 0,270" fill="#a92e3a"/>
-        <polygon points="270,90 450,270 270,450 90,270" fill="#9a2531"/>
-        <polygon points="270,170 370,270 270,370 170,270" fill="#a52b37"/>
-      </pattern>
-      <linearGradient id="shade" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#000" stop-opacity="0"/>
-        <stop offset="1" stop-color="#000" stop-opacity=".18"/>
-      </linearGradient>
+      <radialGradient id="sun" cx="50%" cy="42%" r="58%">
+        <stop offset="0" stop-color="#ff7a3c"/><stop offset=".6" stop-color="#e0242f"/><stop offset="1" stop-color="#b0141f"/>
+      </radialGradient>
+      <radialGradient id="glow"><stop offset="0" stop-color="#ff5a3a" stop-opacity=".5"/><stop offset="1" stop-color="#ff5a3a" stop-opacity="0"/></radialGradient>
+      <clipPath id="sunclip"><circle cx="520" cy="440" r="320"/></clipPath>
+      <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.6" fill="#fff" opacity=".06"/></pattern>
     </defs>
-    <rect width="4000" height="1000" fill="url(#diamonds)"/>
-    <!-- горизонтальная полоса, как в референсе -->
-    <rect y="455" width="4000" height="240" fill="#000" opacity=".07"/>
-    <!-- силуэт гор Бурабая по нижнему краю -->
-    <path fill="#000" opacity=".1" d="M0 1000 L0 900 L120 860 L210 885 L300 820 L360 760 L392 700 L420 690 L446 740 L480 820
-      L560 850 L660 830 L760 870 L860 850 L960 880 L1080 860 L1200 885 L1320 870 L1440 890 L1560 868 L1680 886 L1800 872
-      L1920 892 L2040 870 L2160 888 L2280 870 L2400 890 L2520 866 L2640 884 L2760 870 L2880 888 L3000 860 L3140 850
-      L3240 870 L3340 830 L3440 850 L3520 820 L3554 740 L3580 690 L3608 700 L3640 760 L3700 820 L3790 885 L3880 860
-      L4000 900 L4000 1000 Z"/>
-    <rect width="4000" height="1000" fill="url(#shade)"/>
+    <rect width="4000" height="1000" fill="url(#dots)"/>
+
+    <!-- крупные диагональные лучи -->
+    <g fill="#fff" opacity=".035">
+      <polygon points="1900,0 2150,0 1650,1000 1400,1000"/>
+      <polygon points="3420,0 3560,0 3060,1000 2920,1000"/>
+    </g>
+
+    <!-- солнце -->
+    <circle cx="520" cy="440" r="520" fill="url(#glow)"/>
+    <circle cx="520" cy="440" r="320" fill="url(#sun)"/>
+    <g clip-path="url(#sunclip)" fill="#4a0b16" opacity=".25">
+      <rect x="150" y="620" width="760" height="10"/><rect x="150" y="652" width="760" height="14"/>
+      <rect x="150" y="688" width="760" height="18"/><rect x="150" y="728" width="760" height="24"/>
+    </g>
+
+    <!-- дальние горы по всей ширине -->
+    <path fill="#5c0e1b" d="M0 780 L120 720 L220 745 L330 680 L420 700 L520 640 L610 690 L700 660 L820 700 L940 650
+      L1080 720 L1300 760 L1600 740 L1900 770 L2200 750 L2500 772 L2800 748 L3100 770 L3300 730 L3420 690 L3520 720
+      L3640 670 L3760 712 L3880 690 L4000 720 L4000 1000 L0 1000 Z"/>
+
+    <!-- каратист, ёко-гери -->
+    <g transform="translate(-930,-20)">
+      <g stroke="#2a0710" stroke-linecap="round" stroke-linejoin="round" fill="none">
+        <path d="M1338 548 L1322 640 L1336 736" stroke-width="44"/>
+        <path d="M1338 548 L1262 452" stroke-width="58"/>
+        <path d="M1338 548 L1460 524 L1592 494" stroke-width="44"/>
+        <path d="M1262 452 L1312 446 L1300 398" stroke-width="30"/>
+        <path d="M1262 452 L1222 512 L1268 548" stroke-width="30"/>
+      </g>
+      <circle cx="1232" cy="402" r="38" fill="#2a0710"/>
+      <path d="M1310 744 L1376 744" stroke="#2a0710" stroke-width="26" stroke-linecap="round"/>
+      <path d="M1312 530 L1360 566" stroke="#f2b33d" stroke-width="10" stroke-linecap="round"/>
+      <path d="M1338 548 L1318 590 M1338 548 L1302 582" stroke="#f2b33d" stroke-width="7" stroke-linecap="round"/>
+    </g>
+
+    <!-- ближние скалы (Окжетпес) и сосны -->
+    <path fill="#33060f" d="M0 860 L80 820 L180 800 L260 770 L330 790 L420 782 L490 786
+      L560 790 L640 760 L760 800 L800 770 L824 680 L846 664 L866 690 L880 760 L910 792 L1000 820 L1200 840 L1500 850 L2000 862 L2600 855 L3100 846 L3300 820
+      L3420 790 L3500 805 L3600 760 L3640 700 L3664 690 L3690 740 L3740 790 L3860 810 L4000 790 L4000 1000 L0 1000 Z"/>
+    <g fill="#26040b">
+      <path d="M40 880 L66 810 L92 880 Z M90 880 L120 790 L150 880 Z M600 880 L626 812 L652 880 Z M660 880 L692 780 L724 880 Z
+               M730 880 L752 830 L774 880 Z M820 880 L846 806 L872 880 Z
+               M3280 880 L3306 806 L3332 880 Z M3330 880 L3362 776 L3394 880 Z M3780 880 L3810 790 L3840 880 Z
+               M3850 880 L3876 820 L3902 880 Z M3910 880 L3944 772 L3978 880 Z"/>
+    </g>
+
+    <!-- озеро -->
+    <rect y="880" width="4000" height="120" fill="#24040a"/>
+    <g fill="#e0242f">
+      <rect x="330" y="896" width="380" height="6" rx="3" opacity=".7"/>
+      <rect x="370" y="914" width="300" height="6" rx="3" opacity=".5"/>
+      <rect x="410" y="932" width="220" height="5" rx="2.5" opacity=".35"/>
+      <rect x="450" y="950" width="140" height="4" rx="2" opacity=".25"/>
+    </g>
+    <path fill="#160206" d="M1180 906 L1200 878 L1224 872 L1240 884 L1254 880 L1268 906 Z"/>
   </svg>
 
-  <div class="divider" style="left:860px"></div>
-  <div class="divider" style="right:860px"></div>
+  <div class="title-block">
+    <div class="badge"><i style="background:var(--aka)"></i><i style="background:var(--ao)"></i>Karate · WKF</div>
+    <div class="subtitle" data-f="subtitle"></div>
+    <div class="name"><span class="l1">Burabay</span><span class="l2"><span class="open">Open</span><span class="year" data-f="year"></span></span></div>
+    <div class="disc"><span style="background:var(--aka)">Кумите</span><span style="background:var(--ao)">Ката</span></div>
+  </div>
 
-  <section class="panel side left" data-side></section>
-  <section class="panel center">
-    <div class="grid" id="grid">
-      <div class="heading">
-        <div class="name" data-f="name"></div>
-        <div class="date" data-f="date"></div>
-        <div class="subtitle" data-f="subtitle"></div>
-      </div>
+  <div class="partners">
+    <h2 data-f="partnersTitle"></h2>
+    <div class="logos" id="logos"></div>
+  </div>
+
+  <div class="info">
+    <div class="org" id="org"></div>
+    <div class="date" data-f="date"></div>
+    <div class="place">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="#e0242f"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>
+      <span data-f="place"></span>
     </div>
-  </section>
-  <section class="panel side right" data-side></section>
+    <div class="rules" data-f="rules"></div>
+  </div>
+
+  <div class="stripe"><i></i><i></i><i></i></div>
 </div>
 
 <script>
-/* ===== НАСТРОЙКИ — меняйте тексты и логотипы здесь ===== */
+/* ===== НАСТРОЙКИ — тексты и логотипы ===== */
 const CONFIG = {
-  name: "Burabay Open",
-  date: "2026",                                   // например: "6–8 қараша 2026"
-  subtitle: "Каратэ WKF бойынша<br>халықаралық ашық турнир",
-  // Логотипы организаторов на белой плашке (слева и справа). Пути к файлам, напр. "logos/wkf.png"
-  orgLogos: ["", ""],
-  // Логотипы партнёров для сетки в центре. Повторяются по кругу.
-  sponsorLogos: [],
-  rows: 8,
+  subtitle: "Каратэ WKF бойынша ашық турнир",
+  year: "2026",
+  date: "2026",                      // например: "12–14 желтоқсан 2026"
+  place: "Бурабай · Қазақстан",
+  rules: "WKF ережелері бойынша",
+  partnersTitle: "Серіктестер · Партнёры",
+  orgLogos: ["", ""],                // логотипы организаторов, напр. "logos/wkf.png"
+  partnerLogos: [],                  // логотипы партнёров (до 15 штук)
+  partnerSlots: 15,
 };
-/* ======================================================== */
-
-function logoEl(src, cls) {
-  if (src) { const i = new Image(); i.src = src; i.alt = ""; if (cls) i.className = cls; return i; }
-  const svgNS = "http://www.w3.org/2000/svg";
-  const s = document.createElementNS(svgNS, "svg");
-  s.setAttribute("viewBox", "0 0 100 100"); if (cls) s.setAttribute("class", cls);
-  s.innerHTML = '<circle cx="50" cy="50" r="46" fill="none" stroke="#d6d6d6" stroke-width="4" stroke-dasharray="8 6"/>' +
-                '<text x="50" y="57" text-anchor="middle" font-family="Fira Sans Condensed" font-weight="800" font-size="20" fill="#c4c4c4">LOGO</text>';
-  return s;
-}
+/* ========================================= */
 
 document.querySelectorAll("[data-f]").forEach(el => el.innerHTML = CONFIG[el.dataset.f]);
 
-document.querySelectorAll("[data-side]").forEach(side => {
-  const plate = document.createElement("div"); plate.className = "org-plate";
-  CONFIG.orgLogos.forEach(src => plate.appendChild(logoEl(src, "logo")));
-  side.innerHTML = '<div class="subtitle"></div><div class="name"></div><div class="date"></div>';
-  side.prepend(plate);
-  side.querySelector(".subtitle").innerHTML = CONFIG.subtitle;
-  side.querySelector(".name").innerHTML = CONFIG.name;
-  side.querySelector(".date").innerHTML = CONFIG.date;
+const ph = '<svg viewBox="0 0 100 100" width="120" height="120"><circle cx="50" cy="50" r="44" fill="none" stroke="#d9cfcf" stroke-width="4" stroke-dasharray="8 6"/><text x="50" y="57" text-anchor="middle" font-family="Oswald" font-size="20" fill="#cbbfbf">LOGO</text></svg>';
+const org = document.getElementById("org");
+CONFIG.orgLogos.forEach(src => {
+  const d = document.createElement("div"); d.className = "slot";
+  d.innerHTML = src ? '<img src="' + src + '" alt="">' : ph; org.appendChild(d);
 });
-
-const grid = document.getElementById("grid");
-const cols = 12, n = CONFIG.sponsorLogos.length;
-const cells = cols * CONFIG.rows - 6 * 3;   // минус «окно» под заголовок
-for (let k = 0; k < cells; k++) {
-  { const r = Math.floor(k / cols), c = k % cols;
-    const t = document.createElement("div"); t.className = "tile";
-    if (n) t.appendChild(logoEl(CONFIG.sponsorLogos[(c + r * 2) % n]));
-    else t.innerHTML = '<span class="ph">Logo</span>';
-    grid.appendChild(t);
-  }
+const logos = document.getElementById("logos");
+for (let i = 0; i < CONFIG.partnerSlots; i++) {
+  const d = document.createElement("div"); d.className = "logo";
+  const src = CONFIG.partnerLogos[i];
+  d.innerHTML = src ? '<img src="' + src + '" alt="">' : '<span class="ph">LOGO</span>';
+  logos.appendChild(d);
 }
 
 function fit() {
