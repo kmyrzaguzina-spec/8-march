@@ -6,203 +6,171 @@
 <title>Burabay Open — пресс-волл</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Fira+Sans+Condensed:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:ital,wght@0,400;0,600;0,800;1,800;1,900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --wine: #4a0b16;
-    --wine-2: #7a1222;
-    --aka: #e0242f;
-    --ao: #1e5bd8;
-    --gold: #f2b33d;
-    --ink: #fff8f0;
+    --bg: #9f2733;
+    --bg-dark: #86202b;
+    --bg-light: #b33642;
+    --white: #ffffff;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; background: #111; }
   body { display: grid; place-items: center; overflow: hidden; }
 
-  /* Холст 4000×1000 (4:1), масштабируется под окно */
+  /* Холст 4000×1000 (пропорция 4:1), масштабируется под окно */
   .wall {
     width: 4000px; height: 1000px; position: relative; overflow: hidden; flex: none;
-    background: linear-gradient(100deg, var(--wine) 0%, var(--wine-2) 45%, #8f1626 70%, var(--wine) 100%);
-    color: var(--ink); font-family: "Fira Sans Condensed", sans-serif;
+    background: var(--bg); color: var(--white);
+    font-family: "Fira Sans Condensed", sans-serif;
   }
-  .scene { position: absolute; inset: 0; }
+  .bg { position: absolute; inset: 0; }
 
-  /* Заголовок */
-  .title-block { position: absolute; left: 960px; top: 130px; width: 960px; }
-  .badge {
-    display: inline-flex; align-items: center; gap: 14px; padding: 10px 24px 10px 14px;
-    border: 2px solid rgba(255,255,255,.3); border-radius: 999px;
-    font-family: Oswald, sans-serif; font-weight: 500; font-size: 30px; letter-spacing: 5px; text-transform: uppercase;
-  }
-  .badge i { width: 20px; height: 20px; border-radius: 50%; display: block; }
-  .subtitle { margin-top: 30px; font-weight: 600; font-size: 44px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); }
-  .name { font-family: Oswald, sans-serif; font-weight: 700; text-transform: uppercase; line-height: .86; margin-top: 10px; }
-  .name .l1 { display: block; font-size: 214px; letter-spacing: 4px; text-shadow: 0 10px 40px rgba(0,0,0,.4); }
-  .name .l2 { display: flex; align-items: center; gap: 30px; font-size: 214px; letter-spacing: 6px; }
-  .name .open { color: transparent; -webkit-text-stroke: 5px var(--ink); }
-  .name .year { font-size: 70px; line-height: 1; padding: 14px 20px 10px; background: var(--aka); color: #fff; transform: translateY(-14px); }
-  .disc { margin-top: 34px; display: flex; gap: 18px; }
-  .disc span { font-family: Oswald, sans-serif; font-weight: 700; font-size: 42px; letter-spacing: 5px; text-transform: uppercase; padding: 8px 30px; border-radius: 6px; }
+  .panel { position: absolute; top: 0; bottom: 0; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .side { width: 860px; justify-content: center; padding-bottom: 20px; }
+  .side.left  { left: 0; }
+  .side.right { right: 0; }
+  .center { left: 860px; right: 860px; padding: 46px 60px; justify-content: center; }
 
-  /* Партнёры */
-  .partners {
-    position: absolute; left: 2080px; top: 140px; width: 1300px; height: 640px;
-    border-radius: 28px; padding: 40px 50px;
-    background: rgba(255,255,255,.07); border: 2px solid rgba(255,255,255,.14);
-    backdrop-filter: blur(4px);
-  }
-  .partners h2 {
-    display: flex; align-items: center; gap: 22px; font-weight: 600; font-size: 34px; letter-spacing: 6px;
-    text-transform: uppercase; color: rgba(255,248,240,.85);
-  }
-  .partners h2::after { content: ""; flex: 1; height: 2px; background: linear-gradient(90deg, var(--gold), transparent); }
-  .logos { margin-top: 34px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 26px; }
-  .logo {
-    height: 138px; background: #fff; border-radius: 16px; display: grid; place-items: center; padding: 14px 20px;
-    box-shadow: 0 10px 24px rgba(0,0,0,.25);
-  }
-  .logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
-  .logo .ph { font-family: Oswald, sans-serif; font-size: 26px; letter-spacing: 4px; color: #cfc6c6; }
+  .divider { position: absolute; top: 0; bottom: 0; width: 3px; background: rgba(255,255,255,.18); }
 
-  /* Организаторы, место, дата */
-  .info { position: absolute; right: 90px; top: 150px; width: 470px; display: flex; flex-direction: column; align-items: center; text-align: center; }
-  .org { display: flex; gap: 30px; background: #fff; border-radius: 22px; padding: 26px 36px; box-shadow: 0 12px 30px rgba(0,0,0,.3); }
-  .org .slot { width: 150px; height: 150px; display: grid; place-items: center; }
-  .org .slot img { max-width: 100%; max-height: 100%; object-fit: contain; }
-  .info .date { margin-top: 44px; font-family: Oswald, sans-serif; font-weight: 700; font-size: 76px; line-height: 1; }
-  .info .place { margin-top: 18px; display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: 40px; letter-spacing: 3px; text-transform: uppercase; }
-  .info .rules { margin-top: 24px; font-size: 30px; letter-spacing: 2px; color: rgba(255,248,240,.7); }
+  /* Белая плашка с логотипами организаторов */
+  .org-plate {
+    display: flex; align-items: center; justify-content: center; gap: 38px;
+    background: #fff; border-radius: 14px; padding: 18px 40px; height: 150px; min-width: 330px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.18);
+  }
+  .org-plate .logo { width: 112px; height: 112px; }
 
-  .stripe { position: absolute; left: 0; right: 0; bottom: 0; height: 16px; display: flex; }
-  .stripe i:nth-child(1) { flex: 1; background: var(--aka); }
-  .stripe i:nth-child(2) { flex: .06; background: #fff; }
-  .stripe i:nth-child(3) { flex: 1; background: var(--ao); }
+  .subtitle { font-weight: 800; font-size: 46px; line-height: 1.12; letter-spacing: .3px; }
+  .side .subtitle { margin-top: 48px; }
+
+  .name {
+    font-weight: 900; font-style: italic; text-transform: uppercase; line-height: .9;
+    letter-spacing: 1px; text-shadow: 0 6px 18px rgba(0,0,0,.18);
+  }
+  .side .name { font-size: 156px; margin-top: 30px; }
+  .center .name { font-size: 124px; }
+
+  .date { font-weight: 400; font-size: 54px; margin-top: 10px; opacity: .95; }
+  .center .date { font-size: 44px; margin-top: 4px; }
+  .center .subtitle { font-size: 38px; margin-top: 8px; }
+
+  /* Сетка логотипов партнёров */
+  .grid {
+    display: grid; gap: 22px 24px; grid-auto-flow: dense;
+    grid-template-columns: repeat(12, 158px); grid-auto-rows: 90px;
+  }
+  .heading {
+    grid-column: 4 / span 6; grid-row: 1 / span 3;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+  }
+  .tile {
+    background: #fff; border-radius: 6px; display: grid; place-items: center;
+    padding: 8px 14px; box-shadow: 0 4px 10px rgba(0,0,0,.15);
+  }
+  .tile img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .tile .ph { font-weight: 800; font-size: 22px; letter-spacing: 3px; color: #c8c8c8; text-transform: uppercase; }
 </style>
 </head>
 <body>
 <div class="wall" id="wall">
-  <svg class="scene" viewBox="0 0 4000 1000" aria-hidden="true">
+
+  <!-- Фон: ромбы и полосы -->
+  <svg class="bg" viewBox="0 0 4000 1000" preserveAspectRatio="none" aria-hidden="true">
     <defs>
-      <radialGradient id="sun" cx="50%" cy="42%" r="58%">
-        <stop offset="0" stop-color="#ff7a3c"/><stop offset=".6" stop-color="#e0242f"/><stop offset="1" stop-color="#b0141f"/>
-      </radialGradient>
-      <radialGradient id="glow"><stop offset="0" stop-color="#ff5a3a" stop-opacity=".5"/><stop offset="1" stop-color="#ff5a3a" stop-opacity="0"/></radialGradient>
-      <clipPath id="sunclip"><circle cx="520" cy="440" r="320"/></clipPath>
-      <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.6" fill="#fff" opacity=".06"/></pattern>
+      <pattern id="diamonds" width="540" height="540" patternUnits="userSpaceOnUse" x="-50" y="-40">
+        <polygon points="270,0 540,270 270,540 0,270" fill="#a92e3a"/>
+        <polygon points="270,90 450,270 270,450 90,270" fill="#9a2531"/>
+        <polygon points="270,170 370,270 270,370 170,270" fill="#a52b37"/>
+      </pattern>
+      <linearGradient id="shade" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#000" stop-opacity="0"/>
+        <stop offset="1" stop-color="#000" stop-opacity=".18"/>
+      </linearGradient>
     </defs>
-    <rect width="4000" height="1000" fill="url(#dots)"/>
-
-    <!-- крупные диагональные лучи -->
-    <g fill="#fff" opacity=".035">
-      <polygon points="1900,0 2150,0 1650,1000 1400,1000"/>
-      <polygon points="3420,0 3560,0 3060,1000 2920,1000"/>
+    <rect width="4000" height="1000" fill="url(#diamonds)"/>
+    <!-- горизонтальная полоса, как в референсе -->
+    <rect y="455" width="4000" height="240" fill="#000" opacity=".07"/>
+    <!-- Горы Бурабая: дальний хребет с горой Кокше, скала Окжетпес, сосновый лес, озеро с Жумбактас -->
+    <path fill="#3d0710" opacity=".36" d="M0 1000 L0 640 L46 623 L93 606 L140 600 L180 593 L220 571 L260 570 L300 560 L340 573 L380 584 L420 610 L466 598 L513 577 L560 575 L606 595 L653 609 L700 640 L740 621 L780 618 L820 616 L860 600 L906 609 L953 627 L1000 650 L1040 644 L1080 642 L1120 627 L1160 615 L1200 610 L1240 609 L1280 580 L1320 587 L1360 565 L1400 560 L1440 540 L1480 528 L1520 520 L1560 518 L1600 500 L1640 484 L1680 483 L1720 475 L1760 461 L1800 455 L1840 452 L1880 440 L1920 437 L1960 437 L2000 440 L2040 437 L2080 437 L2120 440 L2160 452 L2200 455 L2240 461 L2280 475 L2320 483 L2360 484 L2400 500 L2440 518 L2480 520 L2520 528 L2560 540 L2600 560 L2640 565 L2680 587 L2720 580 L2760 609 L2800 610 L2840 615 L2880 627 L2920 642 L2960 644 L3000 650 L3046 627 L3093 609 L3140 600 L3180 616 L3220 618 L3260 621 L3300 640 L3346 609 L3393 595 L3440 575 L3486 577 L3533 598 L3580 610 L3620 584 L3660 573 L3700 560 L3740 570 L3780 571 L3820 593 L3860 600 L3906 606 L3953 623 L4000 640 L4000 1000 Z"/>
+    <path fill="#3d0710" opacity=".55" d="M0 1000 L0 760 L40 750 L80 731 L120 720 L166 722 L213 735 L260 740 L306 725 L353 709 L400 700 L440 712 L480 717 L520 720 L560 699 L600 690 L550 640 L590 560 L608 500 L620 452 L638 430 L658 438 L672 470 L680 520 L696 560 L720 520 L736 500 L752 512 L762 560 L790 640 L790 640 L940 671 L980 700 L1020 697 L1060 702 L1100 690 L1140 705 L1180 704 L1220 731 L1260 730 L1306 710 L1353 708 L1400 700 L1440 714 L1480 707 L1520 723 L1560 720 L1600 740 L1640 740 L1680 738 L1720 729 L1760 733 L1800 720 L1840 718 L1880 730 L1920 731 L1960 733 L2000 735 L2040 733 L2080 731 L2120 730 L2160 718 L2200 720 L2240 733 L2280 729 L2320 738 L2360 740 L2400 740 L2440 720 L2480 723 L2520 707 L2560 714 L2600 700 L2646 708 L2693 710 L2740 730 L2780 731 L2820 704 L2860 705 L2900 690 L2940 702 L2980 697 L3020 700 L3060 671 L3210 640 L3210 640 L3238 560 L3248 512 L3264 500 L3280 520 L3304 560 L3320 520 L3328 470 L3342 438 L3362 430 L3380 452 L3392 500 L3410 560 L3450 640 L3400 690 L3440 699 L3480 720 L3520 717 L3560 712 L3600 700 L3646 709 L3693 725 L3740 740 L3786 735 L3833 722 L3880 720 L3920 731 L3960 750 L4000 760 L4000 1000 Z"/>
+    <path fill="#2e050c" opacity=".7" d="M0 900 L14 818 L29 900 Z M26 900 L47 783 L67 900 Z M57 900 L74 803 L91 900 Z M77 900 L94 800 L112 900 Z M105 900 L127 780 L148 900 Z M143 900 L156 830 L168 900 Z M161 900 L178 803 L196 900 Z M180 900 L195 817 L210 900 Z M199 900 L209 841 L220 900 Z M211 900 L229 796 L248 900 Z M233 900 L245 832 L257 900 Z M250 900 L270 789 L290 900 Z M274 900 L288 818 L303 900 Z M296 900 L316 788 L336 900 Z M331 900 L351 789 L371 900 Z M358 900 L372 820 L386 900 Z M378 900 L398 788 L418 900 Z M415 900 L426 839 L437 900 Z M429 900 L441 833 L452 900 Z M444 900 L459 816 L474 900 Z M468 900 L480 831 L492 900 Z M481 900 L496 820 L510 900 Z M501 900 L517 810 L533 900 Z M531 900 L549 801 L567 900 Z M558 900 L575 806 L592 900 Z M586 900 L595 846 L605 900 Z M603 900 L622 795 L641 900 Z M637 900 L656 794 L675 900 Z M664 900 L678 822 L692 900 Z M681 900 L698 805 L715 900 Z M700 900 L710 845 L720 900 Z M713 900 L724 838 L735 900 Z M728 900 L737 846 L747 900 Z M738 900 L749 839 L760 900 Z M751 900 L765 824 L778 900 Z M767 900 L787 788 L807 900 Z M798 900 L809 839 L820 900 Z M813 900 L826 825 L839 900 Z M831 900 L842 841 L852 900 Z M850 900 L871 780 L893 900 Z M882 900 L897 816 L912 900 Z M899 900 L910 842 L920 900 Z M913 900 L926 831 L938 900 Z M935 900 L946 838 L957 900 Z M947 900 L968 783 L989 900 Z M979 900 L990 839 L1001 900 Z M996 900 L1005 848 L1015 900 Z M1010 900 L1032 781 L1053 900 Z M1048 900 L1066 801 L1084 900 Z M1072 900 L1085 824 L1099 900 Z M1089 900 L1107 795 L1126 900 Z M1117 900 L1136 795 L1155 900 Z M1143 900 L1155 834 L1166 900 Z M1163 900 L1185 781 L1206 900 Z M1202 900 L1221 793 L1240 900 Z M1235 900 L1254 798 L1272 900 Z M1259 900 L1274 813 L1290 900 Z M1280 900 L1290 847 L1299 900 Z M1291 900 L1303 830 L1316 900 Z M1307 900 L1325 801 L1342 900 Z M1340 900 L1355 818 L1369 900 Z M1367 900 L1389 780 L1410 900 Z M1407 900 L1421 824 L1434 900 Z M1424 900 L1436 834 L1448 900 Z M1439 900 L1451 835 L1463 900 Z M1458 900 L1478 786 L1499 900 Z M1494 900 L1509 816 L1524 900 Z M1518 900 L1537 794 L1557 900 Z M1541 900 L1558 803 L1575 900 Z M1572 900 L1591 795 L1610 900 Z M1604 900 L1619 816 L1634 900 Z M1623 900 L1642 794 L1661 900 Z M1649 900 L1668 793 L1687 900 Z M1685 900 L1699 822 L1713 900 Z M1705 900 L1726 783 L1746 900 Z M1740 900 L1751 838 L1762 900 Z M1753 900 L1764 839 L1775 900 Z M1773 900 L1792 793 L1811 900 Z M1796 900 L1816 792 L1835 900 Z M1833 900 L1850 803 L1868 900 Z M1857 900 L1873 811 L1889 900 Z M1876 900 L1885 849 L1894 900 Z M1893 900 L1910 804 L1928 900 Z M1919 900 L1940 784 L1961 900 Z M1949 900 L1969 788 L1989 900 Z M1985 900 L1996 835 L2008 900 Z M4000 900 L3986 818 L3971 900 Z M3974 900 L3953 783 L3933 900 Z M3943 900 L3926 803 L3909 900 Z M3923 900 L3906 800 L3888 900 Z M3895 900 L3873 780 L3852 900 Z M3857 900 L3844 830 L3832 900 Z M3839 900 L3822 803 L3804 900 Z M3820 900 L3805 817 L3790 900 Z M3801 900 L3791 841 L3780 900 Z M3789 900 L3771 796 L3752 900 Z M3767 900 L3755 832 L3743 900 Z M3750 900 L3730 789 L3710 900 Z M3726 900 L3712 818 L3697 900 Z M3704 900 L3684 788 L3664 900 Z M3669 900 L3649 789 L3629 900 Z M3642 900 L3628 820 L3614 900 Z M3622 900 L3602 788 L3582 900 Z M3585 900 L3574 839 L3563 900 Z M3571 900 L3559 833 L3548 900 Z M3556 900 L3541 816 L3526 900 Z M3532 900 L3520 831 L3508 900 Z M3519 900 L3504 820 L3490 900 Z M3499 900 L3483 810 L3467 900 Z M3469 900 L3451 801 L3433 900 Z M3442 900 L3425 806 L3408 900 Z M3414 900 L3405 846 L3395 900 Z M3397 900 L3378 795 L3359 900 Z M3363 900 L3344 794 L3325 900 Z M3336 900 L3322 822 L3308 900 Z M3319 900 L3302 805 L3285 900 Z M3300 900 L3290 845 L3280 900 Z M3287 900 L3276 838 L3265 900 Z M3272 900 L3263 846 L3253 900 Z M3262 900 L3251 839 L3240 900 Z M3249 900 L3235 824 L3222 900 Z M3233 900 L3213 788 L3193 900 Z M3202 900 L3191 839 L3180 900 Z M3187 900 L3174 825 L3161 900 Z M3169 900 L3158 841 L3148 900 Z M3150 900 L3129 780 L3107 900 Z M3118 900 L3103 816 L3088 900 Z M3101 900 L3090 842 L3080 900 Z M3087 900 L3074 831 L3062 900 Z M3065 900 L3054 838 L3043 900 Z M3053 900 L3032 783 L3011 900 Z M3021 900 L3010 839 L2999 900 Z M3004 900 L2995 848 L2985 900 Z M2990 900 L2968 781 L2947 900 Z M2952 900 L2934 801 L2916 900 Z M2928 900 L2915 824 L2901 900 Z M2911 900 L2893 795 L2874 900 Z M2883 900 L2864 795 L2845 900 Z M2857 900 L2845 834 L2834 900 Z M2837 900 L2815 781 L2794 900 Z M2798 900 L2779 793 L2760 900 Z M2765 900 L2746 798 L2728 900 Z M2741 900 L2726 813 L2710 900 Z M2720 900 L2710 847 L2701 900 Z M2709 900 L2697 830 L2684 900 Z M2693 900 L2675 801 L2658 900 Z M2660 900 L2645 818 L2631 900 Z M2633 900 L2611 780 L2590 900 Z M2593 900 L2579 824 L2566 900 Z M2576 900 L2564 834 L2552 900 Z M2561 900 L2549 835 L2537 900 Z M2542 900 L2522 786 L2501 900 Z M2506 900 L2491 816 L2476 900 Z M2482 900 L2463 794 L2443 900 Z M2459 900 L2442 803 L2425 900 Z M2428 900 L2409 795 L2390 900 Z M2396 900 L2381 816 L2366 900 Z M2377 900 L2358 794 L2339 900 Z M2351 900 L2332 793 L2313 900 Z M2315 900 L2301 822 L2287 900 Z M2295 900 L2274 783 L2254 900 Z M2260 900 L2249 838 L2238 900 Z M2247 900 L2236 839 L2225 900 Z M2227 900 L2208 793 L2189 900 Z M2204 900 L2184 792 L2165 900 Z M2167 900 L2150 803 L2132 900 Z M2143 900 L2127 811 L2111 900 Z M2124 900 L2115 849 L2106 900 Z M2107 900 L2090 804 L2072 900 Z M2081 900 L2060 784 L2039 900 Z M2051 900 L2031 788 L2011 900 Z M2015 900 L2004 835 L1992 900 Z"/>
+    <rect y="896" width="4000" height="104" fill="#2e050c" opacity=".55"/>
+    <g fill="#fff" opacity=".12">
+      <rect x="120" y="924" width="560" height="4" rx="2"/><rect x="260" y="946" width="380" height="4" rx="2"/>
+      <rect x="3320" y="924" width="560" height="4" rx="2"/><rect x="3360" y="946" width="380" height="4" rx="2"/>
+      <rect x="1500" y="934" width="1000" height="3" rx="1.5" opacity=".6"/>
     </g>
-
-    <!-- солнце -->
-    <circle cx="520" cy="440" r="520" fill="url(#glow)"/>
-    <circle cx="520" cy="440" r="320" fill="url(#sun)"/>
-    <g clip-path="url(#sunclip)" fill="#4a0b16" opacity=".25">
-      <rect x="150" y="620" width="760" height="10"/><rect x="150" y="652" width="760" height="14"/>
-      <rect x="150" y="688" width="760" height="18"/><rect x="150" y="728" width="760" height="24"/>
+    <g fill="#2e050c" opacity=".75">
+      <path d="M700 932 L716 906 L738 900 L752 910 L766 906 L780 932 Z"/>
+      <path d="M3300 932 L3284 906 L3262 900 L3248 910 L3234 906 L3220 932 Z"/>
     </g>
-
-    <!-- дальние горы по всей ширине -->
-    <path fill="#5c0e1b" d="M0 780 L120 720 L220 745 L330 680 L420 700 L520 640 L610 690 L700 660 L820 700 L940 650
-      L1080 720 L1300 760 L1600 740 L1900 770 L2200 750 L2500 772 L2800 748 L3100 770 L3300 730 L3420 690 L3520 720
-      L3640 670 L3760 712 L3880 690 L4000 720 L4000 1000 L0 1000 Z"/>
-
-    <!-- каратист, ёко-гери -->
-    <g transform="translate(-930,-20)">
-      <g stroke="#2a0710" stroke-linecap="round" stroke-linejoin="round" fill="none">
-        <path d="M1338 548 L1322 640 L1336 736" stroke-width="44"/>
-        <path d="M1338 548 L1262 452" stroke-width="58"/>
-        <path d="M1338 548 L1460 524 L1592 494" stroke-width="44"/>
-        <path d="M1262 452 L1312 446 L1300 398" stroke-width="30"/>
-        <path d="M1262 452 L1222 512 L1268 548" stroke-width="30"/>
-      </g>
-      <circle cx="1232" cy="402" r="38" fill="#2a0710"/>
-      <path d="M1310 744 L1376 744" stroke="#2a0710" stroke-width="26" stroke-linecap="round"/>
-      <path d="M1312 530 L1360 566" stroke="#f2b33d" stroke-width="10" stroke-linecap="round"/>
-      <path d="M1338 548 L1318 590 M1338 548 L1302 582" stroke="#f2b33d" stroke-width="7" stroke-linecap="round"/>
-    </g>
-
-    <!-- ближние скалы (Окжетпес) и сосны -->
-    <path fill="#33060f" d="M0 860 L80 820 L180 800 L260 770 L330 790 L420 782 L490 786
-      L560 790 L640 760 L760 800 L800 770 L824 680 L846 664 L866 690 L880 760 L910 792 L1000 820 L1200 840 L1500 850 L2000 862 L2600 855 L3100 846 L3300 820
-      L3420 790 L3500 805 L3600 760 L3640 700 L3664 690 L3690 740 L3740 790 L3860 810 L4000 790 L4000 1000 L0 1000 Z"/>
-    <g fill="#26040b">
-      <path d="M40 880 L66 810 L92 880 Z M90 880 L120 790 L150 880 Z M600 880 L626 812 L652 880 Z M660 880 L692 780 L724 880 Z
-               M730 880 L752 830 L774 880 Z M820 880 L846 806 L872 880 Z
-               M3280 880 L3306 806 L3332 880 Z M3330 880 L3362 776 L3394 880 Z M3780 880 L3810 790 L3840 880 Z
-               M3850 880 L3876 820 L3902 880 Z M3910 880 L3944 772 L3978 880 Z"/>
-    </g>
-
-    <!-- озеро -->
-    <rect y="880" width="4000" height="120" fill="#24040a"/>
-    <g fill="#e0242f">
-      <rect x="330" y="896" width="380" height="6" rx="3" opacity=".7"/>
-      <rect x="370" y="914" width="300" height="6" rx="3" opacity=".5"/>
-      <rect x="410" y="932" width="220" height="5" rx="2.5" opacity=".35"/>
-      <rect x="450" y="950" width="140" height="4" rx="2" opacity=".25"/>
-    </g>
-    <path fill="#160206" d="M1180 906 L1200 878 L1224 872 L1240 884 L1254 880 L1268 906 Z"/>
+    <rect width="4000" height="1000" fill="url(#shade)"/>
   </svg>
 
-  <div class="title-block">
-    <div class="badge"><i style="background:var(--aka)"></i><i style="background:var(--ao)"></i>Karate · WKF</div>
-    <div class="subtitle" data-f="subtitle"></div>
-    <div class="name"><span class="l1">Burabay</span><span class="l2"><span class="open">Open</span><span class="year" data-f="year"></span></span></div>
-    <div class="disc"><span style="background:var(--aka)">Кумите</span><span style="background:var(--ao)">Ката</span></div>
-  </div>
+  <div class="divider" style="left:860px"></div>
+  <div class="divider" style="right:860px"></div>
 
-  <div class="partners">
-    <h2 data-f="partnersTitle"></h2>
-    <div class="logos" id="logos"></div>
-  </div>
-
-  <div class="info">
-    <div class="org" id="org"></div>
-    <div class="date" data-f="date"></div>
-    <div class="place">
-      <svg width="34" height="34" viewBox="0 0 24 24" fill="#e0242f"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>
-      <span data-f="place"></span>
+  <section class="panel side left" data-side></section>
+  <section class="panel center">
+    <div class="grid" id="grid">
+      <div class="heading">
+        <div class="name" data-f="name"></div>
+        <div class="date" data-f="date"></div>
+        <div class="subtitle" data-f="subtitle"></div>
+      </div>
     </div>
-    <div class="rules" data-f="rules"></div>
-  </div>
-
-  <div class="stripe"><i></i><i></i><i></i></div>
+  </section>
+  <section class="panel side right" data-side></section>
 </div>
 
 <script>
-/* ===== НАСТРОЙКИ — тексты и логотипы ===== */
+/* ===== НАСТРОЙКИ — меняйте тексты и логотипы здесь ===== */
 const CONFIG = {
-  subtitle: "Каратэ WKF бойынша ашық турнир",
-  year: "2026",
-  date: "2026",                      // например: "12–14 желтоқсан 2026"
-  place: "Бурабай · Қазақстан",
-  rules: "WKF ережелері бойынша",
-  partnersTitle: "Серіктестер · Партнёры",
-  orgLogos: ["", ""],                // логотипы организаторов, напр. "logos/wkf.png"
-  partnerLogos: [],                  // логотипы партнёров (до 15 штук)
-  partnerSlots: 15,
+  name: "Burabay Open",
+  date: "2026",                                   // например: "6–8 қараша 2026"
+  subtitle: "Каратэ WKF бойынша<br>халықаралық ашық турнир",
+  // Логотипы организаторов на белой плашке (слева и справа). Пути к файлам, напр. "logos/wkf.png"
+  orgLogos: ["", ""],
+  // Логотипы партнёров для сетки в центре. Повторяются по кругу.
+  sponsorLogos: [],
+  rows: 8,
 };
-/* ========================================= */
+/* ======================================================== */
+
+function logoEl(src, cls) {
+  if (src) { const i = new Image(); i.src = src; i.alt = ""; if (cls) i.className = cls; return i; }
+  const svgNS = "http://www.w3.org/2000/svg";
+  const s = document.createElementNS(svgNS, "svg");
+  s.setAttribute("viewBox", "0 0 100 100"); if (cls) s.setAttribute("class", cls);
+  s.innerHTML = '<circle cx="50" cy="50" r="46" fill="none" stroke="#d6d6d6" stroke-width="4" stroke-dasharray="8 6"/>' +
+                '<text x="50" y="57" text-anchor="middle" font-family="Fira Sans Condensed" font-weight="800" font-size="20" fill="#c4c4c4">LOGO</text>';
+  return s;
+}
 
 document.querySelectorAll("[data-f]").forEach(el => el.innerHTML = CONFIG[el.dataset.f]);
 
-const ph = '<svg viewBox="0 0 100 100" width="120" height="120"><circle cx="50" cy="50" r="44" fill="none" stroke="#d9cfcf" stroke-width="4" stroke-dasharray="8 6"/><text x="50" y="57" text-anchor="middle" font-family="Oswald" font-size="20" fill="#cbbfbf">LOGO</text></svg>';
-const org = document.getElementById("org");
-CONFIG.orgLogos.forEach(src => {
-  const d = document.createElement("div"); d.className = "slot";
-  d.innerHTML = src ? '<img src="' + src + '" alt="">' : ph; org.appendChild(d);
+document.querySelectorAll("[data-side]").forEach(side => {
+  const plate = document.createElement("div"); plate.className = "org-plate";
+  CONFIG.orgLogos.forEach(src => plate.appendChild(logoEl(src, "logo")));
+  side.innerHTML = '<div class="subtitle"></div><div class="name"></div><div class="date"></div>';
+  side.prepend(plate);
+  side.querySelector(".subtitle").innerHTML = CONFIG.subtitle;
+  side.querySelector(".name").innerHTML = CONFIG.name;
+  side.querySelector(".date").innerHTML = CONFIG.date;
 });
-const logos = document.getElementById("logos");
-for (let i = 0; i < CONFIG.partnerSlots; i++) {
-  const d = document.createElement("div"); d.className = "logo";
-  const src = CONFIG.partnerLogos[i];
-  d.innerHTML = src ? '<img src="' + src + '" alt="">' : '<span class="ph">LOGO</span>';
-  logos.appendChild(d);
+
+const grid = document.getElementById("grid");
+const cols = 12, n = CONFIG.sponsorLogos.length;
+const cells = cols * CONFIG.rows - 6 * 3;   // минус «окно» под заголовок
+for (let k = 0; k < cells; k++) {
+  { const r = Math.floor(k / cols), c = k % cols;
+    const t = document.createElement("div"); t.className = "tile";
+    if (n) t.appendChild(logoEl(CONFIG.sponsorLogos[(c + r * 2) % n]));
+    else t.innerHTML = '<span class="ph">Logo</span>';
+    grid.appendChild(t);
+  }
 }
 
 function fit() {
